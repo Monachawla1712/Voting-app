@@ -1,10 +1,11 @@
 pipeline {
-     agent {
-        label 'docker-agent'
-    }
-    
+    agent any
+
     stages {
         stage("Code Clone") {
+            agent {
+                label 'docker-agent'
+            }
             steps {
                 echo "Cloning the app"
                 git url: "https://github.com/Monachawla1712/Voting-app.git", branch: "main"
@@ -12,6 +13,9 @@ pipeline {
         }
 
         stage("Build") {
+            agent {
+                label 'docker-agent'
+            }
             steps {
                 echo "Building the code"
                 // Change to the template directory
@@ -22,6 +26,9 @@ pipeline {
         }
 
         stage("Push") {
+            agent {
+                label 'docker-agent'
+            }
             steps {
                 echo "Pushing the docker images to Docker Hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]){
