@@ -25,24 +25,24 @@
                  container('kaniko') {
                      // Use Kaniko to build the Docker image
                      sh "/kaniko/executor --dockerfile vote/Dockerfile --context . --destination=${env.dockerHubUser}/vote-app:latest"
-                     withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
+                     // withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
+                     // // sh "docker tag Vote-app ${env.dockerHubUser}/vote-app:latest"
+                     // sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                     // sh "docker push ${env.dockerHubUser}/vote-app:latest"
+                 }
+             }
+         }
+
+         stage("Push") {
+                steps {
+                 echo "Pushing the docker images to Docker Hub"
+                 withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
                      // sh "docker tag Vote-app ${env.dockerHubUser}/vote-app:latest"
                      sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
                      sh "docker push ${env.dockerHubUser}/vote-app:latest"
                  }
              }
          }
-
-         // stage("Push") {
-            //     steps {
-         //         echo "Pushing the docker images to Docker Hub"
-         //         withCredentials([usernamePassword(credentialsId: "dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]) {
-         //             // sh "docker tag Vote-app ${env.dockerHubUser}/vote-app:latest"
-         //             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-         //             sh "docker push ${env.dockerHubUser}/vote-app:latest"
-         //         }
-         //     }
-         // }
      }
  }
 
