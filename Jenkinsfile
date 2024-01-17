@@ -23,6 +23,14 @@ pipeline {
     }
 
     stages {
+
+        stage("Code Clone") {
+            steps {
+                echo "Cloning the app"
+                git url: "https://github.com/Monachawla1712/Voting-app.git", branch: "main"
+            }
+        }
+        
         stage("Build docker image") {
             steps {
                 echo "Building the code"
