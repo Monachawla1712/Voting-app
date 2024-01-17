@@ -19,19 +19,12 @@ pipeline {
     }
 
     stages {
-        stage("Code Clone") {
-            steps {
-                echo "Cloning the app"
-                git url: "https://github.com/Monachawla1712/Voting-app.git", branch: "main"
-            }
-        }
-
         stage("Build docker image ") {
             steps {
                 echo "Building the code"
-                // Change to the template directory
-                dir('vote/template') {
-                    sh "docker build -t Vote-app ."
+                container('kaniko') {
+                    // Use Kaniko to build the Docker image
+                    sh "/kaniko/executor --dockerfile Dockerfile --context \`pwd\` --destination=Vote-app:latest"
                 }
             }
         }
