@@ -52,10 +52,3 @@
 
 
   
-                        sh "docker push ${DOCKER_HUB_USER}/vote-app:latest"
-                    }
-                }
-            }
-        }
-    }
-}
