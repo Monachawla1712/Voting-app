@@ -19,15 +19,17 @@ pipeline {
     }
 
     stages {
-        stage("Build docker image ") {
-            steps {
-                echo "Building the code"
-                container('kaniko') {
-                    // Use Kaniko to build the Docker image
-                    sh "/kaniko/executor --dockerfile Dockerfile --context \`pwd\` --destination=Vote-app:latest"
-                }
+    stage("Build docker image ") {
+        steps {
+            echo "Building the code"
+            container('kaniko') {
+                // Use Kaniko to build the Docker image
+                sh '/kaniko/executor --dockerfile Dockerfile --context $(pwd) --destination=Vote-app:latest'
             }
         }
+    }
+}
+
 
         stage("Push") {
             steps {
