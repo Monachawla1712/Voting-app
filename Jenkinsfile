@@ -14,6 +14,9 @@ pipeline {
                   command:
                   - /busybox/cat
                   tty: true
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
               """
         }
     }
@@ -24,7 +27,7 @@ pipeline {
                 echo "Building the code"
                 container('kaniko') {
                     // Use Kaniko to build the Docker image
-                    sh '/kaniko/executor --dockerfile Dockerfile --context $(pwd) --destination=Vote-app:latest'
+                    sh '/kaniko/executor --dockerfile /workspace/vote/template/Dockerfile --context /workspace --destination=Vote-app:latest'
                 }
             }
         }
