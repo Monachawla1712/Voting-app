@@ -1,21 +1,32 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            metadata:
+                name: kaniko
+            spec:
+                restartPolicy: Never
+                containers:
+                - name: kaniko
+                  image: gcr.io/kaniko-project/executor:debug
+                  command:
+                  - /busybox/cat
+                  tty: true
+              """
+        }
+    }
 
     stages {
         stage("Code Clone") {
-            agent {
-                label 'docker-agent'
-            }
             steps {
                 echo "Cloning the app"
                 git url: "https://github.com/Monachawla1712/Voting-app.git", branch: "main"
             }
         }
 
-        stage("Build") {
-            agent {
-                label 'docker-agent'
-            }
+        stage("Build docker image ") {
             steps {
                 echo "Building the code"
                 // Change to the template directory
@@ -26,9 +37,6 @@ pipeline {
         }
 
         stage("Push") {
-            agent {
-                label 'docker-agent'
-            }
             steps {
                 echo "Pushing the docker images to Docker Hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub", passwordVariable: "dockerHubPass", usernameVariable: "dockerHubUser")]){
