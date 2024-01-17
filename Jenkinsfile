@@ -50,7 +50,7 @@ pipeline {
                     // Use the same Kaniko container for consistency
                     script {
                         // Log in to Docker Hub using Jenkins credentials
-                        sh "echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin"
+                        sh "echo \$DOCKER_HUB_PASS | docker login -u \$DOCKER_HUB_USER --password-stdin"
                         // Push the Docker image
                         sh "docker push ${DOCKER_HUB_USER}/vote-app:latest"
                     }
