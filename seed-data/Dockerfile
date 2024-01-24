@@ -8,7 +8,8 @@ RUN apt-get update \
 
 WORKDIR /seed
 
-COPY . .
+
+COPY ./seed-data/ .
 
 # create POST data files with ab friendly formats
 RUN python make-data.py
