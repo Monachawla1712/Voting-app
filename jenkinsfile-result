@@ -47,7 +47,7 @@ pipeline {
                 echo "Building the code"
                 container('kaniko') {
                     // Use Kaniko to build the Docker image
-                    sh "/kaniko/executor --dockerfile `pwd`/result/Dockerfile --context=`pwd` --destination=${DOCKER_HUB_USER}/vote-app-vote:${BUILD_NUMBER}"
+                    sh "/kaniko/executor --dockerfile `pwd`/result/Dockerfile --context=`pwd` --destination=${DOCKER_HUB_USER}/vote-app-result:${BUILD_NUMBER}"
                 }
             }
         }
